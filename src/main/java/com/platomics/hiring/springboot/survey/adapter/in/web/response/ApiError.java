@@ -11,11 +11,10 @@ import lombok.Getter;
 @Getter
 public class ApiError implements ApiResponse {
 
-    private String errorType;
-
-    private long rowNumber;
-    private String columnName;
-    private String reason;
+    private final String errorType;
+    private final long rowNumber;
+    private final String columnName;
+    private final String reason;
 
     public ApiError(String errorType, long rowNumber, String columnName, String reason) {
         this.errorType = errorType;

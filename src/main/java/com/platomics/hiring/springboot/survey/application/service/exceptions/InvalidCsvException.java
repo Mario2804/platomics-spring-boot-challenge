@@ -7,9 +7,9 @@ package com.platomics.hiring.springboot.survey.application.service.exceptions;
  */
 public class InvalidCsvException extends RuntimeException {
 
-    private long rowNumber;
-    private String columnName;
-    private String message;
+    private final long rowNumber;
+    private final String columnName;
+    private final String message;
 
     public InvalidCsvException(long rowNumber, String columnName, String message) {
         // the increase is to account for the header
