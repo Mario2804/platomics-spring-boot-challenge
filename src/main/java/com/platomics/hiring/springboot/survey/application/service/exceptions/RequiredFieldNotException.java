@@ -5,9 +5,9 @@ package com.platomics.hiring.springboot.survey.application.service.exceptions;
  *
  * @author Mario Pirau
  */
-public class MissingMandatoryFieldException extends InvalidCsvException {
+public class RequiredFieldNotException extends InvalidCsvException {
 
-    public MissingMandatoryFieldException(long rowNumber, String columnName, String message) {
+    public RequiredFieldNotException(long rowNumber, String columnName, String message) {
         super(rowNumber, columnName, message);
     }
 }

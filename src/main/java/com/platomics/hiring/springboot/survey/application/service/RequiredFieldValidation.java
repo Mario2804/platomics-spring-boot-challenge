@@ -1,7 +1,7 @@
 package com.platomics.hiring.springboot.survey.application.service;
 
 import com.platomics.hiring.springboot.survey.adapter.out.persistance.entity.ElementData;
-import com.platomics.hiring.springboot.survey.application.service.exceptions.MissingMandatoryFieldException;
+import com.platomics.hiring.springboot.survey.application.service.exceptions.RequiredFieldNotException;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class RequiredFieldValidation implements ValidationRule {
             if (element.isRequired() && element.getVisibilityCondition() == null &&
                     csvRecord.get(element.getName()).isEmpty()) {
 
-                throw new MissingMandatoryFieldException(csvRecord.getRecordNumber(),
+                throw new RequiredFieldNotException(csvRecord.getRecordNumber(),
                         element.getName(),
                         "required field not found."
                 );
