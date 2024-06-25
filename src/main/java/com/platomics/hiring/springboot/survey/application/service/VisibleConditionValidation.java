@@ -20,27 +20,25 @@ public class VisibleConditionValidation implements ValidationRule {
 
     public void validate(List<ElementData> rules, CSVRecord csvRecord) {
         for (var element : rules) {
-            if (!element.isRequired()) {
+            if (!element.isRequired() || element.getVisibilityCondition() == null) {
                 continue;
             }
 
-            if (element.getVisibilityCondition() != null) {
-                var visibilityCondition = element.getVisibilityCondition();
-                if (visibilityCondition.getValue().equals(csvRecord.get(visibilityCondition.getComponentName()))) {
+            var visibilityCondition = element.getVisibilityCondition();
+            if (visibilityCondition.getValue().equals(csvRecord.get(visibilityCondition.getComponentName()))) {
 
-                    if (csvRecord.get(element.getName()).isEmpty()) {
-                        throw new VisibleFieldNotFoundException(csvRecord.getRecordNumber(),
-                                element.getName(),
-                                "visibleIf field value not found."
-                        );
-                    }
+                if (csvRecord.get(element.getName()).isEmpty()) {
+                    throw new VisibleFieldNotFoundException(csvRecord.getRecordNumber(),
+                            element.getName(),
+                            "visibleIf field value not found."
+                    );
+                }
 
-                    if (!validateChoices(element.getChoices(), csvRecord.get(element.getName()))) {
-                        throw new ChoiceValueNotFoundException(csvRecord.getRecordNumber(),
-                                element.getName(),
-                                "choice value not found."
-                        );
-                    }
+                if (!validateChoices(element.getChoices(), csvRecord.get(element.getName()))) {
+                    throw new ChoiceValueNotFoundException(csvRecord.getRecordNumber(),
+                            element.getName(),
+                            "choice value not found."
+                    );
                 }
             }
         }
