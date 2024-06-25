@@ -3,11 +3,12 @@ package com.platomics.hiring.springboot.survey.application.service;
 import com.platomics.hiring.springboot.survey.application.port.out.LoadJsonPort;
 import com.platomics.hiring.springboot.survey.application.service.exceptions.AggregateException;
 import com.platomics.hiring.springboot.survey.application.service.exceptions.InvalidCsvException;
+import com.platomics.hiring.springboot.survey.common.InvalidCsvArgumentsProvider;
 import com.platomics.hiring.springboot.survey.common.MultiPartFileBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -30,21 +31,10 @@ class ImportCsvServiceTest {
     private final ImportCsvService service = new ImportCsvService(loadJsonPort, validationRuleEngine);
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "ce-ivdd-and-ce-ivdr-missing-fields.csv",
-            "ce-ivdd-missing-fields.csv",
-            "ce-ivdr-missing-fields.csv",
-            "ce-mdd-missing-fields.csv",
-            "ce-mdr-missing-fields.csv",
-            "invalid-component-list-IVDD.csv",
-            "missing-name.csv",
-            "missing-name-and-ce-ivdd-missing-fields.csv"
-    })
-    void importCsv_invalidFile_throwAggregateException(String fileName) throws IOException {
+    @ArgumentsSource(value = InvalidCsvArgumentsProvider.class)
+    void importCsv_invalidFile_throwAggregateException(InputStream inputStream) {
         // Arrange
         doThrow(new InvalidCsvException(0, "column_name", "message")).when(validationRuleEngine).validate(any(), any());
-        InputStream inputStream =
-                MultiPartFileBuilder.buildMultipartFile("src/test/resources/csv/invalid/" + fileName).getInputStream();
 
         // Act + Assert
         assertThrows(AggregateException.class, () -> service.importCsv(inputStream));

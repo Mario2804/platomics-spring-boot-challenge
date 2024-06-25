@@ -62,14 +62,7 @@ class JsonPersistenceAdapterTest {
     }
 
     private static Stream<Arguments> provideValidJson() {
-        // @formatter:off
-
-        return Stream.of(
-                Arguments.of("valid-simple-survey.json", 1),
-                Arguments.of("valid-complete-survey.json", 8)
-        );
-
-        // @formatter:on
+        return Stream.of(Arguments.of("valid-simple-survey.json", 1), Arguments.of("valid-complete-survey.json", 8));
     }
 
     @ParameterizedTest
