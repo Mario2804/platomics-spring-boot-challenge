@@ -1,6 +1,7 @@
 package com.platomics.hiring.springboot.survey.adapter.in.web.response;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
 /**
@@ -12,15 +13,19 @@ import lombok.Getter;
 public class ApiError implements ApiResponse {
 
     private final String errorType;
-    private final long rowNumber;
-    private final String columnName;
-    private final String reason;
+    private final String errorMessage;
 
-    public ApiError(String errorType, long rowNumber, String columnName, String reason) {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private final ApiErrorDetail apiErrorDetail;
+
+    public ApiError(String errorType, String errorMessage) {
+        this(errorType, errorMessage, null);
+    }
+
+    public ApiError(String errorType, String errorMessage, ApiErrorDetail apiErrorDetail) {
         this.errorType = errorType;
-        this.rowNumber = rowNumber;
-        this.columnName = columnName;
-        this.reason = reason;
+        this.errorMessage = errorMessage;
+        this.apiErrorDetail = apiErrorDetail;
     }
 
     @Override

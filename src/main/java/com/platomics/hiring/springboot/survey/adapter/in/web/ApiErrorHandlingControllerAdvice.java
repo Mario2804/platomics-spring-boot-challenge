@@ -1,6 +1,7 @@
 package com.platomics.hiring.springboot.survey.adapter.in.web;
 
 import com.platomics.hiring.springboot.survey.adapter.in.web.response.ApiError;
+import com.platomics.hiring.springboot.survey.adapter.in.web.response.ApiErrorDetail;
 import com.platomics.hiring.springboot.survey.adapter.in.web.response.ApiErrorResponse;
 import com.platomics.hiring.springboot.survey.application.service.exceptions.AggregateException;
 import org.slf4j.Logger;
@@ -31,20 +32,22 @@ public class ApiErrorHandlingControllerAdvice {
         for (var exception : aggregateException.getExceptions()) {
             apiErrorResponse.add(new ApiError(
                     "invalid_csv",
-                    exception.getRowNumber(),
-                    exception.getColumnName(),
-                    exception.getMessage()
+                    exception.getMessage(),
+                    new ApiErrorDetail(exception.getRowNumber(), exception.getColumnName())
             ));
         }
 
-        return new ResponseEntity<>(apiErrorResponse, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiErrorResponse);
     }
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<Object> handleGenericException(Throwable throwable) {
+    public ResponseEntity<ApiErrorResponse> handleGenericException(Throwable throwable) {
         log.error("Unknown error occurred while handling API request.", throwable);
 
-        return ResponseEntity.internalServerError().build();
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse();
+        apiErrorResponse.add(new ApiError("internal_server_error", "Internal server error"));
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiErrorResponse);
     }
 }
