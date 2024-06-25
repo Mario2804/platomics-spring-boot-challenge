@@ -1,0 +1,37 @@
+{
+  "logoPosition": "right",
+  "pages": [
+    {
+      "name": "Basic",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "component_language",
+          "title": {
+            "default": "In which language do you provide the information about your product?",
+            "de": "In welcher Sprache stellen Sie Informationen des Produktes zur Verfügung? "
+          },
+          "description": {
+            "default": "This information allows the laboratory to find products that can be incorporated into the IH-IVD documentation without language barriers.",
+            "de": "Diese Information ermöglicht es dem Labor, Produkte zu finden, die ohne Sprachbarrieren in die hausinterne IVD-Dokumentation aufgenommen werden können."
+          },
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "English",
+              "text": {
+                "de": "Englisch"
+              }
+            },
+            {
+              "value": "German",
+              "text": {
+                "de": "Deutsch"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
