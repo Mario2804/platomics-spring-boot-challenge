@@ -7,6 +7,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+
+/**
+ * An engine to apply all validation rules
+ *
+ * @author Mario Pirau
+ */
 @Component
 @RequiredArgsConstructor
 public class ValidationRuleEngine {

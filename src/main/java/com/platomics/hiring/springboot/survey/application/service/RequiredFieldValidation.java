@@ -7,6 +7,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * An {@link ValidationRule} implementation which validates if a required field is present
+ *
+ * @author Mario Pirau
+ */
 @Component
 public class RequiredFieldValidation implements ValidationRule {
 

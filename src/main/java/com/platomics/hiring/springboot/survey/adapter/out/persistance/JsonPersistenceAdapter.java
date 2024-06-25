@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter used to retrieve the elements from json
+ *
+ * @author Mario Pirau
+ */
 @PersistenceAdapter
 @RequiredArgsConstructor
 class JsonPersistenceAdapter implements LoadJsonPort {

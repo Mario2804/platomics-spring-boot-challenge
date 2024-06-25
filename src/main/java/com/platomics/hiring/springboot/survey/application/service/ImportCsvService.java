@@ -16,6 +16,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
+/**
+ * Service used to import the csv and validate it based on the survey.json
+ *
+ * @author Mario Pirau
+ */
 @UseCase
 @RequiredArgsConstructor
 public class ImportCsvService implements ImportCsvUseCase {

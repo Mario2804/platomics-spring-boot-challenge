@@ -9,7 +9,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-
+/**
+ * An {@link ValidationRule} implementation which validates the visibleIf field and the choices
+ *
+ * @author Mario Pirau
+ */
 @Component
 public class VisibleConditionValidation implements ValidationRule {
 

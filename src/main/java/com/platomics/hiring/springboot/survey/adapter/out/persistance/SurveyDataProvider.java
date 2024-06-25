@@ -9,6 +9,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * A class responsible for parsing the survey.json
+ *
+ * @author Mario Pirau
+ */
 @Component
 public class SurveyDataProvider {
 
