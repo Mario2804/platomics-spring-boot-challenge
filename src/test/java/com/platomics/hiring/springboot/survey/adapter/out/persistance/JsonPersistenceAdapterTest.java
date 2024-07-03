@@ -1,10 +1,7 @@
 package com.platomics.hiring.springboot.survey.adapter.out.persistance;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.platomics.hiring.springboot.survey.adapter.out.persistance.entity.ElementData;
-import com.platomics.hiring.springboot.survey.adapter.out.persistance.entity.SurveyData;
-import org.junit.jupiter.api.BeforeEach;
+import com.platomics.hiring.springboot.survey.common.ElementDataProvider;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -30,29 +27,21 @@ class JsonPersistenceAdapterTest {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    private ObjectMapper mapper;
-
     @MockBean
     private SurveyDataProvider surveyDataProvider;
 
     @Autowired
     private JsonPersistenceAdapter persistenceAdapterTest;
 
-    @BeforeEach
-    void setup() {
-        mapper = new ObjectMapper();
-        mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING,
-                DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
-        );
-    }
+    private final ElementDataProvider elementDataProvider = new ElementDataProvider();
+
 
     @ParameterizedTest
     @MethodSource("provideValidJson")
     void loadElements_validJsonFile_returnListWithOneElement(String jsonName, int numberOfElements) throws IOException {
         // Arrange
-
         Resource resource = resourceLoader.getResource("classpath:/json/valid/" + jsonName);
-        when(surveyDataProvider.get()).thenReturn(loadSurveyData(resource));
+        when(surveyDataProvider.get()).thenReturn(elementDataProvider.loadSurveyData(resource));
 
         // Act
         List<ElementData> result = persistenceAdapterTest.loadElements();
@@ -70,16 +59,12 @@ class JsonPersistenceAdapterTest {
     void loadElements_invalidJsonFile_returnEmptyList(String jsonName) throws IOException {
         // Arrange
         Resource resource = resourceLoader.getResource("classpath:/json/invalid/" + jsonName);
-        when(surveyDataProvider.get()).thenReturn(loadSurveyData(resource));
+        when(surveyDataProvider.get()).thenReturn(elementDataProvider.loadSurveyData(resource));
 
         // Act
         List<ElementData> result = persistenceAdapterTest.loadElements();
 
         // Assert
         assertTrue(result.isEmpty());
-    }
-
-    private SurveyData loadSurveyData(Resource json) throws IOException {
-        return mapper.readValue(json.getInputStream(), SurveyData.class);
     }
 }
